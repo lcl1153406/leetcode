@@ -17,19 +17,40 @@ using namespace std;
 using namespace std;
 
 // @lc code=start
+// class Solution {
+// public:
+//     int removeElement(vector<int>& nums, int val) {
+//         int slow = 0;
+//         for (int fast = 0; fast < nums.size(); fast++)
+//         {
+//             if (nums[fast] != val)
+//             {
+//                 nums[slow] = nums[fast];
+//                 slow++;
+//             }
+//         }
+//         return slow;
+//     }
+// };
+
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
-        int slow = 0;
-        for (int fast = 0; fast < nums.size(); fast++)
+        int left = 0;
+        int right = nums.size() - 1;
+        while (left <= right)
         {
-            if (nums[fast] != val)
+            if (nums[left] == val)
             {
-                nums[slow] = nums[fast];
-                slow++;
+                nums[left] = nums[right];
+                right--;
+            }
+            else
+            {
+                left++;
             }
         }
-        return slow;
+        return left;
     }
 };
 // @lc code=end
