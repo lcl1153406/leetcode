@@ -42,7 +42,10 @@ public:
         {
             if (nums[left] == val)
             {
-                nums[left] = nums[right];
+                if (nums[right] != val)
+                {
+                    nums[left] = nums[right];
+                }
                 right--;
             }
             else

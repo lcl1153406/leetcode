@@ -19,6 +19,7 @@ using namespace std;
 // @lc code=start
 class Solution {
 public:
+    /* 左闭有闭
     int search(vector<int>& nums, int target) {
         
         int size = nums.size();
@@ -49,6 +50,39 @@ public:
 
         return -1;
     }
+    */
+    /* 左闭右开 */
+    int search(vector<int>& nums, int target) {
+        
+        int size = nums.size();
+        if(size == 0)
+        {
+            return -1;
+        }
+        
+        int left = 0;
+        int right = size;
+
+        while(left < right)
+        {
+            int mid = left + (right - left) / 2;
+            if(nums[mid] == target)
+            {
+                return mid;
+            }
+            else if (nums[mid] > target)
+            {
+                right = mid;
+            }
+            else
+            {
+                left = mid + 1;
+            }
+        }
+
+        return -1;
+    }
+    
 };
 // @lc code=end
 
