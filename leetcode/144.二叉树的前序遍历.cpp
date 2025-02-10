@@ -5,6 +5,7 @@
  */
 
 #include <vector>
+#include <stack>
 
 using namespace std;
 
@@ -31,6 +32,9 @@ struct TreeNode {
  */
 class Solution {
 public:
+
+// 递归写法
+/*
     vector<int> preorderTraversal(TreeNode* root) {
         vector<int> Result;
         Traversal(root, Result);
@@ -47,6 +51,34 @@ public:
         Traversal(Node->left, Vec);
         Traversal(Node->right, Vec);
     }
+*/
+
+// 非递归写法
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> Result;
+        if (!root)
+        {
+            return Result;
+        }
+        stack<TreeNode*> Stack;
+        Stack.push(root);
+        while (!Stack.empty())
+        {
+            auto* Node = Stack.top();
+            Result.push_back(Node->val);
+            Stack.pop();
+            if (Node->right)
+            {
+                Stack.push(Node->right);
+            }
+            if (Node->left)
+            {
+                Stack.push(Node->left);
+            }
+        }
+        return Result;
+    }
+
 };
 // @lc code=end
 
