@@ -79,6 +79,10 @@ public:
 
 	bool isValidBST_Impl(TreeNode* Node, std::optional<int>& LastValue)
     {
+		if (!Node) 
+		{
+			return true;
+		}	
     	if (Node->left)
     	{
 		    if (!isValidBST_Impl(Node->left, LastValue))
