@@ -25,8 +25,29 @@ using namespace std;
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        
-        return nullptr;
+    	if (!root || root == p || root == q)
+		{
+			return root;
+		}
+    	TreeNode* LeftNode = lowestCommonAncestor(root->left, p, q);
+    	TreeNode* RightNode = lowestCommonAncestor(root->right, p, q);
+
+    	if (LeftNode && RightNode)
+    	{
+    		return root;
+    	}
+    	else if (!LeftNode && RightNode)
+    	{
+    		return RightNode;
+    	}
+    	else if(LeftNode && !RightNode)
+    	{
+    		return LeftNode;
+    	}
+    	else
+    	{
+    		return nullptr;
+    	}
     }
 };
 // @lc code=end
