@@ -68,24 +68,46 @@ public:
     // }
 
     // 递归写法
+    // int minDepth(TreeNode* root) {
+    //     if (!root)
+    //     {
+    //         return 0;
+    //     }
+    //     int minLeft = minDepth(root->left);
+    //     int minRight = minDepth(root->right);
+
+    //     if (!root->left && root->right)
+    //     {
+    //         return minRight + 1;
+    //     }
+    //     if (root->left && !root->right)
+    //     {
+    //         return minLeft + 1;
+    //     }
+
+    //     return min(minLeft, minRight) + 1;
+    // }
+
+
+    void getdepth(TreeNode* node, int depth, int& result) {
+
+        if (!node->left && !node->right){
+            result = min(result, depth);
+            return;
+        }
+
+        if (node->left) { // 左
+            getdepth(node->left, depth + 1, result);
+        }
+        if (node->right) { // 右
+            getdepth(node->right, depth + 1, result);
+        }
+    }
     int minDepth(TreeNode* root) {
-        if (!root)
-        {
-            return 0;
-        }
-        int minLeft = minDepth(root->left);
-        int minRight = minDepth(root->right);
-
-        if (!root->left && root->right)
-        {
-            return minRight + 1;
-        }
-        if (root->left && !root->right)
-        {
-            return minLeft + 1;
-        }
-
-        return min(minLeft, minRight) + 1;
+        if (!root) return 0;
+        int result = INT_MAX;
+        getdepth(root, 1, result);
+        return result;
     }
 };
 // @lc code=end
