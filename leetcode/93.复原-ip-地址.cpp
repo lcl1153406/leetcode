@@ -12,76 +12,69 @@ using namespace std;
  * [93] 复原 IP 地址
  */
 
-#include <vector>
-#include <string>
-#include <cmath>
-#include <iostream>
+ #include <vector>
+ #include <string>
 
 using namespace std;
 
 // @lc code=start
 class Solution {
 public:
-vector<string> Result;
-    vector<string> IPArr;
+
+    vector<string> Result;
     vector<string> restoreIpAddresses(string s) {
-        BackTracking(s, 0);
+        if (s.size() < 4 || s.size() > 12) return Result;
+        BackTracking(s, 0, 0);
         return Result;
     }
 
-    void BackTracking(const string& s, int StartIndex) {
-        if (IPArr.size() > 4)
+    void BackTracking(string s, int StartIndex, int PointNum) {
+        if (PointNum == 3)
         {
-            return;
-        }
-        if (StartIndex >= s.size() && IPArr.size() == 4)
-        {
-            string IPStr;
-            for (int i = 0; i < IPArr.size(); ++i)
+            if (IsValidStr(s, StartIndex, s.size() - 1))
             {
-                if (i == 0)
-                {
-                    IPStr += IPArr[i];
-                }
-                else
-                {
-                    IPStr += ".";
-                    IPStr += IPArr[i];
-                }
+                Result.push_back(s);
             }
-            Result.push_back(IPStr);
             return;
         }
-        for (int i = StartIndex; i < s.size(); ++i)
+        
+        for (int i = StartIndex; i < s.size(); i++)
         {
-            if (i - StartIndex > 2 || ConvertToNumber(s, StartIndex, i) > 255)
+            if (!IsValidStr(s, StartIndex, i))
             {
                 break;
             }
-            if (i - StartIndex > 0 && s[i] == '0')
-            {
-                continue;
-            }
-            IPArr.push_back(s.substr(StartIndex, i - StartIndex + 1));
-            BackTracking(s, i + 1);
-            IPArr.pop_back();
+            s.insert(s.begin() + i + 1, '.');
+            BackTracking(s, i + 2, PointNum + 1);
+            s.erase(s.begin() + i + 1);
         }
     }
-    
-    int ConvertToNumber(const string& s, int Start, int End)
-    {
-        if (End < Start)
+
+    bool IsValidStr(const string& s, int Start, int End){
+        if (Start > End)
         {
-            return 0;
+            return false;
         }
-        int Value = 0;
-        while (End >= Start)
+        
+        if (End - Start > 0 && s[Start] == '0')
         {
-            Value += (s[Start] - '0') * std::pow(10, End - Start);
-            Start++;
+            return false;
         }
-        //std::cout << Value << "\n";
-        return Value;
+        
+        int Num = 0;
+        for (int i = Start; i <= End; i++)
+        {
+            if (s[i] > '9' || s[i] < '0')
+            {
+                return false;
+            }
+            Num = Num * 10 + s[i] - '0';
+            if (Num > 255)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 };
 // @lc code=end
