@@ -37,18 +37,37 @@ public:
     // }
 
     // 贪心算法
+    // int maxSubArray(vector<int>& nums) {
+    //     if (nums.size() == 0)
+    //     {
+    //         return 0;
+    //     }
+    //     int Result = INT_MIN;
+    //     int Sum = 0;
+    //     for (int i = 0; i < nums.size(); i++)
+    //     {
+    //         Sum += nums[i];
+    //         Result = max(Sum, Result);
+    //         Sum = max(Sum, 0);
+    //     }
+    //     return Result;
+    // }
+
     int maxSubArray(vector<int>& nums) {
-        if (nums.size() == 0)
+        vector<int> dp(nums.size(), 0);
+        dp[0] = nums[0];
+        int Result = dp[0];
+        for (int i = 1; i < nums.size(); i++)
         {
-            return 0;
-        }
-        int Result = INT_MIN;
-        int Sum = 0;
-        for (int i = 0; i < nums.size(); i++)
-        {
-            Sum += nums[i];
-            Result = max(Sum, Result);
-            Sum = max(Sum, 0);
+            if (dp[i - 1] > 0)
+            {
+                dp[i] = dp[i - 1] + nums[i];
+            }
+            else
+            {
+                dp[i] = nums[i];
+            }
+            Result = max(Result, dp[i]);
         }
         return Result;
     }
