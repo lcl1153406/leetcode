@@ -13,6 +13,7 @@ using namespace std;
  */
 
 #include <vector>
+#include <stack>
 
 using namespace std;
 
@@ -45,30 +46,51 @@ public:
     //     return result;
     // }
 
+    // int trap(vector<int>& height) {
+    //     int n = height.size();
+    //     int result = 0;
+    //     int pre_max = 0;
+    //     int suff_max = 0;
+    //     int left = 0;
+    //     int right = n - 1;
+    //      while (left <= right)
+    //     {
+    //         pre_max = max(pre_max, height[left]);
+    //         suff_max = max(suff_max, height[right]);
+
+    //         if (pre_max <= suff_max)
+    //         {
+    //             result += pre_max - height[left];
+    //             left++;
+    //         }
+    //         else
+    //         {
+    //             result += suff_max - height[right];
+    //             right--;
+    //         }
+            
+    //     }
+    //     return result;
+    // }
+
     int trap(vector<int>& height) {
         int n = height.size();
-        
-        int pre_max = 0;
-        int suff_max = 0;
-        int left = 0;
-        int right = n - 1;
         int result = 0;
-        while (left <= right)
-        {
-            pre_max = max(pre_max, height[left]);
-            suff_max = max(suff_max, height[right]);
-            if (pre_max <= suff_max)
-            {
-                result += pre_max - height[left];
-                left++;
-            }
-            else
-            {
-                result += suff_max - height[right];
-                right--;
-            }
-        }
         
+        stack<int> st;
+        for (int i = 0; i < n; i++)
+        {
+            while (!st.empty() && height[i] > height[st.top()])
+            {
+                int mid = st.top();
+                st.pop();
+                if (!st.empty())
+                {
+                    result += (min(height[i], height[st.top()]) - height[mid]) * (i - st.top() - 1);
+                }     
+            }
+            st.push(i);
+        }
         return result;
     }
 };
